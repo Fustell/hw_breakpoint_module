@@ -2,6 +2,8 @@ Linux kernel module that sets watchpoint to a given memory address
 
 Results of testing
 set breakpoint on `jiffies` variable
+Due to high-frequency change of `jiffies`, the callbacks can't print backtrace properly
+And write callback wasn't  noticed to be called
 
 [  308.645599] Read trigger at address: 0xffffffc009306980
 ** 19 printk messages dropped **
