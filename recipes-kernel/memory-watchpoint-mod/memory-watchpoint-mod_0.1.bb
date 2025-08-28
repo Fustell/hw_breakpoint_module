@@ -1,5 +1,3 @@
-# memory-watchpoint-mod.bb
-
 DESCRIPTION = "Memory watchpoint kernel module"
 LICENSE = "CLOSED"
 
@@ -12,5 +10,4 @@ S = "${WORKDIR}"
 
 inherit module
 
-DEPENDS += "virtual/kernel"
-do_compile[depends] += "virtual/kernel:do_shared_workdir"
+EXTRA_OEMAKE = "KERNEL_SRC=${STAGING_KERNEL_DIR}"

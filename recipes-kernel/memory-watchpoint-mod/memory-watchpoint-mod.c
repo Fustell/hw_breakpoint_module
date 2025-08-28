@@ -19,7 +19,8 @@ static unsigned long watch_addr = 0;
 module_param(watch_addr, ulong, 0644);
 MODULE_PARM_DESC(watch_addr, "Memory address to set hardware watchpoint");
 
-static struct perf_event **hw_breakpoint_event;
+static struct perf_event **hw_breakpoint_read_event;
+static struct perf_event **hw_breakpoint_write_event;
 static struct kobject *wp_kobj;
 
 #define MAX_STACK_DEPTH 16
@@ -41,12 +42,7 @@ static void read_callback(struct perf_event *bp,
 {
 
     pr_info("Read trigger at address: 0x%lx\n", watch_addr);
-
-    if (hw_breakpoint_event) {
-        unregister_wide_hw_breakpoint(hw_breakpoint_event);
-        hw_breakpoint_event = NULL;
-        pr_info("Watchpoint automatically removed after trigger\n");
-    }
+    print_backtrace();
 
 }
 
@@ -56,12 +52,7 @@ static void write_callback(struct perf_event *bp,
 {
 
     pr_info("Write trigger at address: 0x%lx\n", watch_addr);
-
-    if (hw_breakpoint_event) {
-        unregister_wide_hw_breakpoint(hw_breakpoint_event);
-        hw_breakpoint_event = NULL;
-        pr_info("Watchpoint automatically removed after trigger\n");
-    }
+    print_backtrace();
 
 }
 
@@ -79,22 +70,22 @@ static int setup_watchpoint(void)
     attr.bp_len = HW_BREAKPOINT_LEN_4;
     attr.bp_type = HW_BREAKPOINT_R;
 
-    hw_breakpoint_event = register_wide_hw_breakpoint(&attr, read_callback, NULL);
-    if (IS_ERR(hw_breakpoint_event)) {
-        pr_err("Failed to register read hardware watchpoint: %ld\n", PTR_ERR(hw_breakpoint_event));
-        hw_breakpoint_event = NULL;
-        return PTR_ERR(hw_breakpoint_event);
+    hw_breakpoint_read_event = register_wide_hw_breakpoint(&attr, read_callback, NULL);
+    if (IS_ERR(hw_breakpoint_read_event)) {
+        pr_err("Failed to register read hardware watchpoint: %ld\n", PTR_ERR(hw_breakpoint_read_event));
+        hw_breakpoint_read_event = NULL;
+        return PTR_ERR(hw_breakpoint_read_event);
     }
 
     attr.bp_addr = watch_addr;
     attr.bp_len = HW_BREAKPOINT_LEN_4;
     attr.bp_type = HW_BREAKPOINT_W;
 
-    hw_breakpoint_event = register_wide_hw_breakpoint(&attr, write_callback, NULL);
-    if (IS_ERR(hw_breakpoint_event)) {
-        pr_err("Failed to register  write hardware watchpoint: %ld\n", PTR_ERR(hw_breakpoint_event));
-        hw_breakpoint_event = NULL;
-        return PTR_ERR(hw_breakpoint_event);
+    hw_breakpoint_write_event = register_wide_hw_breakpoint(&attr, write_callback, NULL);
+    if (IS_ERR(hw_breakpoint_write_event)) {
+        pr_err("Failed to register  write hardware watchpoint: %ld\n", PTR_ERR(hw_breakpoint_write_event));
+        hw_breakpoint_write_event = NULL;
+        return PTR_ERR(hw_breakpoint_write_event);
     }
 
     pr_info("Hardware watchpoint set at address: 0x%lx\n", watch_addr);
@@ -103,10 +94,16 @@ static int setup_watchpoint(void)
 
 static void cleanup_watchpoint(void)
 {
-    if (hw_breakpoint_event) {
-        unregister_wide_hw_breakpoint(hw_breakpoint_event);
-        hw_breakpoint_event = NULL;
-        pr_info("Watchpoint removed\n");
+    if (hw_breakpoint_read_event) {
+        unregister_wide_hw_breakpoint(hw_breakpoint_read_event);
+        hw_breakpoint_read_event = NULL;
+        pr_info("Watchpoint for reading removed\n");
+    }
+
+    if(hw_breakpoint_write_event) {
+        unregister_wide_hw_breakpoint(hw_breakpoint_write_event);
+        hw_breakpoint_write_event = NULL;
+        pr_info("Watchpoint for writting removed\n");
     }
 }
 
