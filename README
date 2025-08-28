@@ -1,41 +1,90 @@
-This README file contains information on the contents of the meta-watchpoint-memory layer.
+## Linux kernel module that sets watchpoint to a given memory address
 
-Please see the corresponding sections below for details.
+# Results of testing
+set breakpoint on `jiffies` variable
+```
+[  308.645599] Read trigger at address: 0xffffffc009306980
+** 19 printk messages dropped **
+[  308.646285] Read trigger at address: 0xffffffc009306980
+** 5 printk messages dropped **
+[  308.646459] Read trigger at address: 0xffffffc009306980
+** 11 printk messages dropped **
+[  308.647012] Read trigger at address: 0xffffffc009306980
+** 14 printk messages dropped **
+[  308.647703] Read trigger at address: 0xffffffc009306980
+** 17 printk messages dropped **
+[  308.648271] Read trigger at address: 0xffffffc009306980
+** 9 printk messages dropped **
+[  308.648612] Read trigger at address: 0xffffffc009306980
+** 16 printk messages dropped **
+[  308.649105] Read trigger at address: 0xffffffc009306980
+** 7 printk messages dropped **
+[  308.649485] Read trigger at address: 0xffffffc009306980
+** 15 printk messages dropped **
+[  308.650023] Read trigger at address: 0xffffffc009306980
+** 17 printk messages dropped **
+[  308.650558] Read trigger at address: 0xffffffc009306980
+** 14 printk messages dropped **
+[  308.651176] Read trigger at address: 0xffffffc009306980
+** 12 printk messages dropped **
+[  308.651790] Read trigger at address: 0xffffffc009306980
+** 17 printk messages dropped **
+[  308.653401] Read trigger at address: 0xffffffc009306980
+** 7 printk messages dropped **
+[  308.654105] Read trigger at address: 0xffffffc009306980
+** 13 printk messages dropped **
+[  308.654551] Read trigger at address: 0xffffffc009306980
+** 20 printk messages dropped **
+[  308.655448] Read trigger at address: 0xffffffc009306980
+** 4 printk messages dropped **
+[  308.655772] Read trigger at address: 0xffffffc009306980
+** 12 printk messages dropped **
+[  308.656214] Read trigger at address: 0xffffffc009306980
+** 14 printk messages dropped **
+[  308.656887] Read trigger at address: 0xffffffc009306980
+** 17 printk messages dropped **
+[  308.657550] Read trigger at address: 0xffffffc009306980
+** 5 printk messages dropped **
+[  308.657922] Read trigger at address: 0xffffffc009306980
+** 14 printk messages dropped **
+[  308.658450] Read trigger at address: 0xffffffc009306980
+** 20 printk messages dropped **
+[  308.659132] Read trigger at address: 0xffffffc009306980
+** 11 printk messages dropped **
+[  308.659589] Read trigger at address: 0xffffffc009306980
+** 10 printk messages dropped **
+[  308.659995] Read trigger at address: 0xffffffc009306980
+** 16 printk messages dropped **
+[  308.660615] Read trigger at address: 0xffffffc009306980
+** 8 printk messages dropped **
+[  308.660980] Read trigger at address: 0xffffffc009306980
+** 5 printk messages dropped **
+[  308.661202] Read trigger at address: 0xffffffc009306980
+** 5 printk messages dropped **
+[  308.661450] Read trigger at address: 0xffffffc009306980
+** 10 printk messages dropped **
+[  308.661914] Read trigger at address: 0xffffffc009306980
+** 11 printk messages dropped **
+[  308.662249] Read trigger at address: 0xffffffc009306980
+** 16 printk messages dropped **
+[  308.662756] Read trigger at address: 0xffffffc009306980
+** 7 printk messages dropped **
+[  308.662991] Read trigger at address: 0xffffffc009306980
+** 12 printk messages dropped **
+[  308.663524] Read trigger at address: 0xffffffc009306980
+** 18 printk messages dropped **
+[  308.664191] Read trigger at address: 0xffffffc009306980
+** 7 printk messages dropped **
+[  308.664523] Read trigger at address: 0xffffffc009306980
+** 7 printk messages dropped **
+[  308.664753] Read trigger at address: 0xffffffc009306980
+** 16 printk messages dropped **
+[  308.665426] Read trigger at address: 0xffffffc009306980
+** 17 printk messages dropped **
+[  308.666086] Read trigger at address: 0xffffffc009306980
+** 10 printk messages dropped **
+[  308.666405] Read trigger at address: 0xffffffc009306980
+** 16 printk messages dropped **
+[  308.667211] Read trigger at address: 0xffffffc009306980
 
-Dependencies
-============
-
-  URI: <first dependency>
-  branch: <branch name>
-
-  URI: <second dependency>
-  branch: <branch name>
-
-  .
-  .
-  .
-
-Patches
-=======
-
-Please submit any patches against the meta-watchpoint-memory layer to the xxxx mailing list (xxxx@zzzz.org)
-and cc: the maintainer:
-
-Maintainer: XXX YYYYYY <xxx.yyyyyy@zzzzz.com>
-
-Table of Contents
-=================
-
-  I. Adding the meta-watchpoint-memory layer to your build
- II. Misc
-
-
-I. Adding the meta-watchpoint-memory layer to your build
-=================================================
-
-Run 'bitbake-layers add-layer meta-watchpoint-memory'
-
-II. Misc
-========
-
---- replace with specific information about the meta-watchpoint-memory layer ---
+```
